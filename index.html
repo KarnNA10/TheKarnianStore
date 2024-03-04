@@ -10,28 +10,28 @@
 </head>
 <script>
     function escInf(sectionId, dataArray){
-        // Obtener la colección de elementos <article>
         const articles = document.querySelectorAll(`#${sectionId} article`);
-        // Verificar si la cantidad de elementos en 'dataArray' coincide con la cantidad de elementos <article>
-        if (dataArray.length !== articles.length) {
+        if(dataArray.length !== articles.length) {
             console.error('La longitud de dataArray no coincide con la cantidad de elementos <article>.');
             return;
         }
-        // Iterar sobre cada elemento <article> y asignar los datos del array
         articles.forEach((article, index) => {
             const data = dataArray[index];
-            // Verificar si el array de datos tiene la longitud esperada
-            if (data.length === 4) {
+
+            if(data.length === 4) {
                 const [imgDir, type, price, descr] = data;
-                // Obtener los elementos dentro del <article>
+
                 const imgElement = article.querySelector('.prodImg');
                 const figCaptionName = article.querySelector('figcaption:not(.price)');
                 const figCaptionPrice = article.querySelector('.price');
     
                 imgElement.src = `static/img/prod/${imgDir}`;
                 figCaptionName.textContent = descr;
-                figCaptionPrice.textContent = `$${price}`;
-                // Asignar la función amp al evento onclick
+                if(price===''){
+                    figCaptionPrice.remove();
+                } else {
+                    figCaptionPrice.textContent = `$${price}`;
+                }
                 article.querySelector('a').onclick = function() {
                     amp(imgDir, type, price, descr);
                 };
@@ -44,28 +44,29 @@
     // Conteo total (cantidad en prod): 127
     // ANIME: 5, ART:15, MUSIC 78, STAMPS:29
     const anime=[
-['Anime_Studio-Ghibli_Howls-Moving-Castle_re_001.png','Sticker','?','Studio Ghibli, Howl\'s Moving Castle'],
-['Anime_Studio-Ghibli_Kiki_re_001.png','Sticker','?','Studio Ghibli, Kiki\'s Delivery Service'],
-['Anime_Studio-Ghibli_Kiki_re_002.png','Sticker','?','Studio Ghibli, Kiki\'s Delivery Service'],
-['Anime_Studio-Ghibli_Logo_re_001.png','Sticker','?','Studio Ghibli (logo)'],
-['Anime_Studio-Ghibli_Totoro_re_001.png','Sticker','?','Studio Ghibli, My Neighbor Totoro']]
+['Anime_Studio-Ghibli_Howls-Moving-Castle_re_001.png','Sticker','','Studio Ghibli, Howl\'s Moving Castle'],
+['Anime_Studio-Ghibli_Kiki_re_001.png','Sticker','','Studio Ghibli, Kiki\'s Delivery Service'],
+['Anime_Studio-Ghibli_Kiki_re_002.png','Sticker','','Studio Ghibli, Kiki\'s Delivery Service'],
+['Anime_Studio-Ghibli_Logo_re_001.png','Sticker','','Studio Ghibli (logo)'],
+['Anime_Studio-Ghibli_Totoro_re_001.png','Sticker','','Studio Ghibli, My Neighbor Totoro']]
     const art=[
-['Art_Dore_re_001.png','Sticker','?','Gustave Doré, Ilustración'],
-['Art_Dore_re_002.png','Sticker','?','Gustave Doré, Ilustración'],
-['Art_Dore_re_003.png','Sticker','?','Gustave Doré, Ilustración'],
-['Art_Dore_re_004.png','Sticker','?','Gustave Doré, Ilustración'],
-['Art_Dore_re_005.png','Sticker','?','Gustave Doré, Ilustración'],
-['Art_Dore_re_006.png','Sticker','?','Gustave Doré, Ilustración'],
-['Art_Frank-Frazetta_re_001.png','Sticker','?','Frank Frazetta'],
-['Art_Frank-Frazetta_re_002.png','Sticker','?','Frank Frazetta'],
-['Art_Frank-Frazetta_re_003.png','Sticker','?','Frank Frazetta'],
-['Art_Leonora-Carrington_re_001.png','Sticker','?','Leonora Carrington'],
-['Art_Leonora-Carrington_re_002.jpg','Sticker','?','Leonora Carrington'],
-['Art_Remedios-Varo_re_001.png','Sticker','?','Remedios Varo'],
-['Art_Remedios-Varo_re_002.jpg','Sticker','?','Remedios Varo'],
-['Art_Remedios-Varo_re_003.png','Sticker','?','Remedios Varo'],
-['Art_Remedios-Varo_re_004.jpg','Sticker','?','Remedios Varo']]
+['Art_Dore_re_001.png','Sticker','','Gustave Doré, Ilustración'],
+['Art_Dore_re_002.png','Sticker','','Gustave Doré, Ilustración'],
+['Art_Dore_re_003.png','Sticker','','Gustave Doré, Ilustración'],
+['Art_Dore_re_004.png','Sticker','','Gustave Doré, Ilustración'],
+['Art_Dore_re_005.png','Sticker','','Gustave Doré, Ilustración'],
+['Art_Dore_re_006.png','Sticker','','Gustave Doré, Ilustración'],
+['Art_Frank-Frazetta_re_001.png','Sticker','','Frank Frazetta'],
+['Art_Frank-Frazetta_re_002.png','Sticker','','Frank Frazetta'],
+['Art_Frank-Frazetta_re_003.png','Sticker','','Frank Frazetta'],
+['Art_Leonora-Carrington_re_001.png','Sticker','','Leonora Carrington'],
+['Art_Leonora-Carrington_re_002.jpg','Sticker','','Leonora Carrington'],
+['Art_Remedios-Varo_re_001.png','Sticker','','Remedios Varo'],
+['Art_Remedios-Varo_re_002.jpg','Sticker','','Remedios Varo'],
+['Art_Remedios-Varo_re_003.png','Sticker','','Remedios Varo'],
+['Art_Remedios-Varo_re_004.jpg','Sticker','','Remedios Varo']]
     const mus=[
+['Music_Tailor-Swift_c_001.png','Sticker','5','Taylor Swift, album cover'],
 ['Music_Tailor-Swift_c_002.png','Sticker','5','Taylor Swift, album cover'],
 ['Music_Tailor-Swift_c_003.png','Sticker','5','Taylor Swift, album cover'],
 ['Music_Tailor-Swift_c_004.png','Sticker','5','Taylor Swift, album cover'],
@@ -76,90 +77,88 @@
 ['Music_Tailor-Swift_re_001.png','Sticker','10','Taylor Swift, Eras Tour'],
 ['Music_Tailor-Swift_re_002.png','Sticker','12','Taylor Swift'],
 ['Music_Tailor-Swift_re_003.png','Sticker','10','Taylor Swiffith'],
-['Music_BTS_c_001.png','Sticker','5',''],
-['Music_BTS_c_002.png','Sticker','5',''],
-['Music_BTS_c_003.png','Sticker','5',''],
-['Music_BTS_c_004.png','Sticker','5',''],
-['Music_BTS_c_005.png','Sticker','5',''],
-['Music_BTS_c_006.png','Sticker','5',''],
-['Music_BTS_re_001.png','Sticker','5',''],
-['Music_BTS_re_002.png','Sticker','5',''],
+['Music_BTS_c_001.png','Sticker','5','BTS, album cover'],
+['Music_BTS_c_002.png','Sticker','5','BTS, album cover'],
+['Music_BTS_c_003.png','Sticker','5','BTS, album cover'],
+['Music_BTS_c_004.png','Sticker','5','BTS, album cover'],
+['Music_BTS_c_005.png','Sticker','5','BTS, Band Logo'],
+['Music_BTS_c_006.png','Sticker','5','BTS, Army Logo'],
+['Music_BTS_re_001.png','Sticker','10','BTS'],
+['Music_BTS_re_002.png','Sticker','5','BTS'],
 ['Music_Kañe_re_001.png','Sticker','10','Kanye Wuts'],
-['Music_ACDC_png_001.png','Sticker','5','AC DC, Logo (sin fondo)'],
+['Music_ACDC_png_001.png','Sticker','10','AC DC, Logo (sin fondo)'],
 ['Music_Aphex-Twin_png_001.png','Sticker','5','Aphex Twin, Logo (sin fondo)'],
 ['Music_Arctic-Monkeys_re_001.png','Sticker','5','Arctic Monkeys'],
 ['Music_Badbunny_png_001.png','Sticker','5','Bad Bunny (sin fondo)'],
-['Music_BeeGees_png_001.png','Sticker','5','Bee Gees, logo (sin fondo)'],
+['Music_BeeGees_png_001.png','Sticker','','Bee Gees, logo (sin fondo)'],
 ['Music_Blur_png_001.png','Sticker','5','Blur, logo (sin fondo)'],
+['Music_EDEN_png_001.png','Sticker','5','EDEN, Logo (sin fondo)'],
+['Music_ELP_png_001.png','Sticker','','ELP, Logo (sin fondo)'],
+['Music_Gorillaz_png_001.png','Sticker','5','Gorillaz, Logo (sin fondo)'],
+['Music_Hatsune-Miku_png_001.png','Sticker','5','Hatsune-Miku, Logo (sin fondo)'],
+['Music_Imagine-Dragons_png_001.png','Sticker','5','Imagine Dragons, Logo'],
+['Music_Jharioh_png_001.png','Sticker','10','Jharioh, Logo (sin fondo)'],
+['Music_Lana-del-Rey_png_001.png','Sticker','5','Lana del Rey, Logo (sin fondo)'],
+['Music_Lovejoy_png_001.png','Sticker','5','Lovejoy, Logo (sin fondo)'],
+['Music_Marina&theDimonds_png_001.png','Sticker','5','Marina & The Diamonds, Logo (sin fondo)'],
+['Music_Muse_re_001.png','Sticker','5','Muse, Logo'],
+['Music_Opeth_png_001.png','Sticker','','Opeth, Logo (sin fondo)'],
+['Music_Pink-Floyd_png_001.png','Sticker','10','Pink Floyd, Logo (sin fondo)'],
+['Music_Prince_png_001.png','Sticker','','Prince, Logo (sin fondo)'],
+['Music_Radiohead_png_001.png','Sticker','5','Radiohead, Logo (sin fondo)'],
+['Music_Rush_png_001.png','Sticker','10','Rush, Logo (sin fondo)'],
+['Music_Squarepusher_re_001.png','Sticker','5','Squarepusher, Logo'],
+['Music_The-Beatles_png_001.png','Sticker','5','The Beatles, Logo (sin fondo)'],
+['Music_The-Mountain-Goats_png_001.png','Sticker','10','The Mountain Goats, Logo (sin fondo)'],
+['Music_The-Strokes_png_001.png','Sticker','5','The Strokes, Logo (sin fondo)'],
+['Music_Yes_re_001.png','Sticker','5','Yes, Logo'],
 ['Music_Aphrodites-child_c_001.jpg','Sticker','5','Aphrodites Child, 666 album cover'],
-['Music_Burt-Bacharach_c_001.jpg','Sticker','5',''],
-['Music_Bust_Bach_re_001.png','Sticker','5',''],
-['Music_Bust_Beethoven_re_001.png','Sticker','5',''],
-['Music_Bust_Haendel_re_001.png','Sticker','5',''],
-['Music_Bust_Mozart_re_001.png','Sticker','5',''],
-['Music_Camel_c_001.png','Sticker','5',''],
-['Music_Charles-Mingus_c_001.png','Sticker','5',''],
-['Music_Dave-Brubeck-Quartet_c_001.png','Sticker','5',''],
-['Music_EDEN_png_001.png','Sticker','5',''],
-['Music_ELP_c_001.png','Sticker','5',''],
-['Music_ELP_png_001.png','Sticker','5',''],
-['Music_Genesis_c_001.png','Sticker','5',''],
-['Music_Gorillaz_png_001.png','Sticker','5',''],
-['Music_Greenslade_c_001.png','Sticker','5',''],
-['Music_Hatsune-Miku_png_001.png','Sticker','5',''],
-['Music_Herbie-Hancock_c_001.png','Sticker','5',''],
-['Music_Hiromi_c_001.png','Sticker','5',''],
-['Music_Holst_c_001.png','Sticker','5',''],
-['Music_Imagine-Dragons_png_001.png','Sticker','5',''],
-['Music_Imagine-Dragons_re_001.png','Sticker','5',''],
-['Music_Jerry-Herman_c_001.png','Sticker','5',''],
-['Music_Jharioh_png_001.png','Sticker','5',''],
-['Music_Jimmy-Smith_c_001.png','Sticker','5',''],
-['Music_John-Coltrane_c_001.png','Sticker','5',''],
-['Music_Keith-Emerson_c_001.png','Sticker','5',''],
-['Music_King-Crimson_c_001.png','Sticker','5',''],
-['Music_Lana-del-Rey_png_001.png','Sticker','5',''],
-['Music_Lovejoy_png_001.png','Sticker','5',''],
-['Music_Marina&theDimonds_png_001.png','Sticker','5',''],
-['Music_Miles-Davis_c_001.png','Sticker','5',''],
-['Music_Moody-Blues_c_001.png','Sticker','5',''],
-['Music_Muse_re_001.png','Sticker','5',''],
-['Music_Opeth_c_001.png','Sticker','5',''],
-['Music_Opeth_png_001.png','Sticker','5',''],
-['Music_PFM_c_001.png','Sticker','5',''],
-['Music_Pink-Floyd_c_001.png','Sticker','5',''],
-['Music_Pink-Floyd_c_002.png','Sticker','5',''],
-['Music_Pink-Floyd_c_003.png','Sticker','5',''],
-['Music_Pink-Floyd_png_001.png','Sticker','5',''],
-['Music_Prince_c_001.png','Sticker','5',''],
-['Music_Prince_png_001.png','Sticker','5',''],
-['Music_Radiohead_png_001.png','Sticker','5',''],
-['Music_Rush_png_001.png','Sticker','5',''],
-['Music_Squarepusher_re_001.png','Sticker','5',''],
-['Music_Synthesizer_re_001.png','Sticker','5',''],
-['Music_Synthesizer_re_002.png','Sticker','5',''],
-['Music_Synthesizer_re_003.png','Sticker','5',''],
-['Music_Tailor-Swift_c_001.png','Sticker','5',''],
-['Music_The-Beatles_png_001.png','Sticker','5',''],
-['Music_The-Mountain-Goats_png_001.png','Sticker','5',''],
-['Music_The-Strokes_png_001.png','Sticker','5',''],
-['Music_Yes_re_001.png','Sticker','5','']] 
+['Music_Burt-Bacharach_c_001.jpg','Sticker','5','Burt Bacharach, Hit Maker! album cover'],
+['Music_Camel_c_001.png','Sticker','5','Camel, Mirage album cover'],
+['Music_ELP_c_001.png','Sticker','5','ELP, Brain Salad Surgery album cover'],
+['Music_Genesis_c_001.png','Sticker','5','Genesis, Nursery Cryme album cover'],
+['Music_Greenslade_c_001.png','Sticker','5','Greenslade, album cover'],
+['Music_Herbie-Hancock_c_001.png','Sticker','5','Herbie Hancock, Head Hunters album cover'],
+['Music_Hiromi_c_001.png','Sticker','5','Hiromi, SonicWonderlands album cover'],
+['Music_Holst_c_001.png','Sticker','5','Holst, The Planets album cover'],
+['Music_Jerry-Herman_c_001.png','Sticker','5','Jerry Harman, Hello Dolly! album cover'],
+['Music_Keith-Emerson_c_001.png','Sticker','5','Keith Emerson, Honky album cover'],
+['Music_King-Crimson_c_001.png','Sticker','5','King Crimson, 21st Century Schizoid Man album cover'],
+['Music_Moody-Blues_c_001.png','Sticker','5','Moody Blues, Days of Future Passed album cover'],
+['Music_Opeth_c_001.png','Sticker','5','Opeth, Blackwater Park alubm cover'],
+['Music_PFM_c_001.png','Sticker','5','Premiata Forneria Marconi, Per un Amico album cover'],
+['Music_Pink-Floyd_c_001.png','Sticker','5','Pink Floyd, Atom Heart Mother album cover'],
+['Music_Pink-Floyd_c_002.png','Sticker','5','Pink Floyd, Black Side of the Moon album cover'],
+['Music_Pink-Floyd_c_003.png','Sticker','5','Pink Floyd, Wish You Were Here album cover'],
+['Music_Prince_c_001.png','Sticker','5','Prince, Purple Rain album cover'], 
+['Music_Synthesizer_re_001.png','Sticker','','Synth, Roland Juno-60'],
+['Music_Synthesizer_re_002.png','Sticker','','Synth, Arturia Synclavier-V'],
+['Music_Synthesizer_re_003.png','Sticker','','Synth, Minimoog'],
+['Music_Charles-Mingus_c_001.png','Sticker','5','Charles Mingus, Mingus Ah Um album cover'],
+['Music_Dave-Brubeck-Quartet_c_001.png','Sticker','5','Dave Brubeck Quartet, Time Out album cover'],
+['Music_Jimmy-Smith_c_001.png','Sticker','5','Jimmy Smith, The Sermon! album cover'],
+['Music_John-Coltrane_c_001.png','Sticker','5','John Coltrane, My Favourite Things album cover'],
+['Music_Miles-Davis_c_001.png','Sticker','5','Miles Davis, Kind OF Blue album cover'],
+['Music_Bust_Bach_re_001.png','Sticker','','J.S. Bach, Bust'],
+['Music_Bust_Beethoven_re_001.png','Sticker','','Beethoven, Bust'],
+['Music_Bust_Haendel_re_001.png','Sticker','','Händel, Bust'],
+['Music_Bust_Mozart_re_001.png','Sticker','','Mozart, Bust']] 
     const stamps=[
-['Stamps_001.jpg','Sticker','5',''],['Stamps_002.png','Sticker','5',''],
-['Stamps_003.png','Sticker','5',''],['Stamps_004.jpg','Sticker','5',''],
-['Stamps_005.jpg','Sticker','5',''],['Stamps_006.jpg','Sticker','5',''],
-['Stamps_007.jpg','Sticker','5',''],['Stamps_008.jpg','Sticker','5',''],
-['Stamps_009.jpg','Sticker','5',''],['Stamps_010.png','Sticker','5',''],
-['Stamps_011.jpg','Sticker','5',''],['Stamps_012.jpg','Sticker','5',''],
-['Stamps_013.jpg','Sticker','5',''],['Stamps_014.jpg','Sticker','5',''],
-['Stamps_015.jpg','Sticker','5',''],['Stamps_016.jpg','Sticker','5',''],
-['Stamps_017.jpg','Sticker','5',''],['Stamps_018.jpg','Sticker','5',''],
-['Stamps_019.jpg','Sticker','5',''],['Stamps_020.jpg','Sticker','5',''],
-['Stamps_021.jpg','Sticker','5',''],['Stamps_022.jpg','Sticker','5',''],
-['Stamps_023.jpg','Sticker','5',''],['Stamps_024.jpg','Sticker','5',''],
-['Stamps_025.jpg','Sticker','5',''],['Stamps_026.jpg','Sticker','5',''],
-['Stamps_027.jpg','Sticker','5',''],['Stamps_028.jpg','Sticker','5',''],
-['Stamps_029.jpg','Sticker','5','']] 
+['Stamps_001.jpg','Sticker','4',''],['Stamps_002.png','Sticker','4',''],
+['Stamps_003.png','Sticker','4',''],['Stamps_004.jpg','Sticker','4',''],
+['Stamps_005.jpg','Sticker','4',''],['Stamps_006.jpg','Sticker','4',''],
+['Stamps_007.jpg','Sticker','4',''],['Stamps_008.jpg','Sticker','4','NIPON 80. Correo de Japón. Lago Kawaguchi, Prefectura de Yamanashi'],
+['Stamps_009.jpg','Sticker','4',''],['Stamps_010.png','Sticker','4',''],
+['Stamps_011.jpg','Sticker','4',''],['Stamps_012.jpg','Sticker','4',''],
+['Stamps_013.jpg','Sticker','4',''],['Stamps_014.jpg','Sticker','4',''],
+['Stamps_015.jpg','Sticker','4',''],['Stamps_016.jpg','Sticker','4',''],
+['Stamps_017.jpg','Sticker','4',''],['Stamps_018.jpg','Sticker','4',''],
+['Stamps_019.jpg','Sticker','4',''],['Stamps_020.jpg','Sticker','4',''],
+['Stamps_021.jpg','Sticker','4',''],['Stamps_022.jpg','Sticker','4',''],
+['Stamps_023.jpg','Sticker','4',''],['Stamps_024.jpg','Sticker','4',''],
+['Stamps_025.jpg','Sticker','4',''],['Stamps_026.jpg','Sticker','4',''],
+['Stamps_027.jpg','Sticker','4',''],['Stamps_028.jpg','Sticker','4',''],
+['Stamps_029.jpg','Sticker','4','']] 
 
 function cargar(){
         escInf('ANIME', anime);
@@ -315,10 +314,6 @@ function cargar(){
     <section class="galeria" id="MUSIC">
         <div class="sep"  id="mus"></div>
         <h2 class="subtitulo">Música</h2>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
         <article><a><figure>
                     <img class="prodImg" src="" />
                     <figcaption></figcaption><figcaption class="price"></figcaption>
