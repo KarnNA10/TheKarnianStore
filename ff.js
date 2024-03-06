@@ -21,3 +21,12 @@ function cerrar() {
     var imag = document.querySelector('.prodImgAmp')
     imag.remove()
 }
+
+function cambiarCss(a){
+    const valor = a.value;
+    const A = `static/styles/e${valor}.css`;
+    document.querySelector('.liiink').setAttribute("href",A)
+    if(valor==3){
+        document.querySelector('.sss').remove()
+    }
+}

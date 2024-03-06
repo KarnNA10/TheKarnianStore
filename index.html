@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" id="html">
 <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Linefont:wght@4..1000&family=Redacted+Script:wght@300;400;700&display=swap" rel="stylesheet">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/jpg" href="static/img/Ra.png">
-    <link rel="stylesheet" type="text/css" href="e.css" />
+    <link rel="stylesheet" type="text/css" href="static/styles/e1.css" class="liiink"/>
     <script type="text/javascript" src="ff.js"></script>
     <title>Galería - The Karnian Store</title>
 </head>
@@ -43,6 +47,7 @@
     
     // Conteo total (cantidad en prod): 127
     // ANIME: 5, ART:15, MUSIC 78, STAMPS:29
+    // Sub-mus: 12, 8, 58
     const anime=[
 ['Anime_Studio-Ghibli_Howls-Moving-Castle_re_001.png','Sticker','','Studio Ghibli, Howl\'s Moving Castle'],
 ['Anime_Studio-Ghibli_Kiki_re_001.png','Sticker','','Studio Ghibli, Kiki\'s Delivery Service'],
@@ -65,27 +70,29 @@
 ['Art_Remedios-Varo_re_002.jpg','Sticker','','Remedios Varo'],
 ['Art_Remedios-Varo_re_003.png','Sticker','','Remedios Varo'],
 ['Art_Remedios-Varo_re_004.jpg','Sticker','','Remedios Varo']]
-    const mus=[
+    const mus1=[
 ['Music_Tailor-Swift_c_001.png','Sticker','5','Taylor Swift, album cover'],
 ['Music_Tailor-Swift_c_002.png','Sticker','5','Taylor Swift, album cover'],
 ['Music_Tailor-Swift_c_003.png','Sticker','5','Taylor Swift, album cover'],
 ['Music_Tailor-Swift_c_004.png','Sticker','5','Taylor Swift, album cover'],
 ['Music_Tailor-Swift_c_005.png','Sticker','5','Taylor Swift, album cover'],
 ['Music_Tailor-Swift_c_006.png','Sticker','5','Taylor Swift, album cover'],
+['Music_Tailor-Swift_re_002.png','Sticker','12','Taylor Swift'],
 ['Music_Tailor-Swift_c_007.png','Sticker','5','Taylor Swift, album cover'],
 ['Music_Tailor-Swift_c_008.png','Sticker','5','Taylor Swift, album cover'],
-['Music_Tailor-Swift_re_001.png','Sticker','10','Taylor Swift, Eras Tour'],
-['Music_Tailor-Swift_re_002.png','Sticker','12','Taylor Swift'],
 ['Music_Tailor-Swift_re_003.png','Sticker','10','Taylor Swiffith'],
+['Music_Tailor-Swift_re_001.png','Sticker','10','Taylor Swift, Eras Tour'],
+['Music_Kañe_re_001.png','Sticker','10','Kanye Wuts']]
+    const mus2=[
 ['Music_BTS_c_001.png','Sticker','5','BTS, album cover'],
+['Music_BTS_re_002.png','Sticker','10','BTS'],
 ['Music_BTS_c_002.png','Sticker','5','BTS, album cover'],
+['Music_BTS_re_001.png','Sticker','10','BTS'],
 ['Music_BTS_c_003.png','Sticker','5','BTS, album cover'],
 ['Music_BTS_c_004.png','Sticker','5','BTS, album cover'],
 ['Music_BTS_c_005.png','Sticker','5','BTS, Band Logo'],
-['Music_BTS_c_006.png','Sticker','5','BTS, Army Logo'],
-['Music_BTS_re_001.png','Sticker','10','BTS'],
-['Music_BTS_re_002.png','Sticker','5','BTS'],
-['Music_Kañe_re_001.png','Sticker','10','Kanye Wuts'],
+['Music_BTS_c_006.png','Sticker','5','BTS, Army Logo']]
+    const mus3=[
 ['Music_ACDC_png_001.png','Sticker','10','AC DC, Logo (sin fondo)'],
 ['Music_Aphex-Twin_png_001.png','Sticker','5','Aphex Twin, Logo (sin fondo)'],
 ['Music_Arctic-Monkeys_re_001.png','Sticker','5','Arctic Monkeys'],
@@ -170,15 +177,20 @@
 ['Stamps_024.jpg','Sticker','4','Hong Kong, China 2012. Scorpio'],
 ['Stamps_025.jpg','Sticker','4','Grecia'],
 ['Stamps_026.jpg','Sticker','4','Checoslovaquia'],
-['Stamps_027.jpg','Sticker','4',''],
+['Stamps_027.jpg','Sticker','4','Qué?'],
 ['Stamps_028.jpg','Sticker','4','Italia-Grecia-Turquía. Londres'],
 ['Stamps_029.jpg','Sticker','4','Checoslovaquia']] 
+    // const comm=[
+// ['Comm - Mary.png','Comisión','1200','Dibujo Digital, Reference Sheet']]  -->
 
 function cargar(){
         escInf('ANIME', anime);
         escInf('ART', art);
-        escInf('MUSIC', mus);
+        escInf('MUSIC1', mus1);
+        escInf('MUSIC2', mus2);
+        escInf('MUSIC3', mus3);
         escInf('STAMPS', stamps);
+        // escInf('COMM', comm);
         console.log("Ya se debió cargar todo jaja salu2. Si ocurre algún error, faor de demandar al Administrador.");
     }
     
@@ -198,8 +210,14 @@ function cargar(){
                     <li><a href="#stickers" style="color:crimson;">Stickers</a></li>
                     <li><a href="#anime">Anime</a></li>
                     <li><a href="#arte">Arte</a></li>
-                    <li><a href="#mus">Música</a></li>
+                    <li><a href="#mus1">Música</a></li>
                     <li><a href="#stamps">Estampas</a></li>
+                    <!-- <li><a href="#comm" style="color:crimson;">Comisiones</a></li> -->
+                    <select name="PreviousReceiver" onchange="cambiarCss(this)" class="sss">
+                        <option value="1">Dark</option>
+                        <option value="2">Light</option>
+                        <option value="3">Darker!</option>
+                    </select>
                 </ul>
             </div>
         </nav>
@@ -221,7 +239,7 @@ function cargar(){
 <span class="bienvenida" style="margin-top:70px;">
     <div id="bin2">
         <div class="ee1">
-            <img src="static/img/Kc.gif" style="height: min-content;width:100%;"/>
+            <img src="static/img/Kck.gif" style="height: min-content;width:100%;"/>
         </div>
         <div class="ee2">
             <p id="p1">Bienvenido al catálogo de </p><div class="TT"><a class="TTM">T</a>he <a class="TTM">K</a>arnian <a class="TTM">S</a>tore</div>
@@ -325,8 +343,8 @@ function cargar(){
         </figure></a></article>
         
     </section>
-    <section class="galeria" id="MUSIC">
-        <div class="sep"  id="mus"></div>
+    <section class="galeria" id="MUSIC1">
+        <div class="sep"  id="mus1"></div>
         <h2 class="subtitulo">Música</h2>
         <article><a><figure>
                     <img class="prodImg" src="" />
@@ -376,6 +394,9 @@ function cargar(){
                     <img class="prodImg" src="" />
                     <figcaption></figcaption><figcaption class="price"></figcaption>
         </figure></a></article>
+    </section>
+    <section class="galeria" id="MUSIC2">
+        <div class="sep"  id="mus2"></div>
         <article><a><figure>
                     <img class="prodImg" src="" />
                     <figcaption></figcaption><figcaption class="price"></figcaption>
@@ -408,6 +429,9 @@ function cargar(){
                     <img class="prodImg" src="" />
                     <figcaption></figcaption><figcaption class="price"></figcaption>
         </figure></a></article>
+    </section>
+    <section class="galeria" id="MUSIC3">
+        <div class="sep"  id="mus3"></div>
         <article><a><figure>
                     <img class="prodImg" src="" />
                     <figcaption></figcaption><figcaption class="price"></figcaption>
@@ -759,6 +783,13 @@ function cargar(){
         </figure></a></article>
 
     </section>
+    <!-- <section class="galeria2" id="COMM">
+        <div class="sep"  id="comm"></div>
+        <h2 class="subtitulo">Comisiones</h2>
+        <article><a><figure>
+            <img class="prodImg" src="" />
+            <figcaption>Reference Sheet</figcaption><figcaption class="price">$1000</figcaption>
+        </figure></a></article> -->
 
 
 </body>
