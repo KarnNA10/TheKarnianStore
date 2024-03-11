@@ -11,7 +11,6 @@ html{
     /* background-color: #000; */
     background-size: 100%;
 
-    font-family: "Linefont", system-ui;
     font-optical-sizing: auto;
     font-weight: 10;
     font-style: normal;
@@ -66,12 +65,11 @@ header{
     color: #F0F0E9;
     margin-left: 20px;
     float: left;
-    font-family: "Linefont", system-ui;
     /* font-size: 4rem; */
 }
-a.TM{
-    /* font-size: 4rem; */
-}
+/* a.TM{
+    font-size: 4rem;
+} */
 
 #menu{
     float: right;
@@ -87,7 +85,7 @@ a.TM{
 }
 #menu li a, #menu li span{
     display: inline-block;
-    padding: 0em 1.5em;
+    padding: 0em 1em;
     text-decoration: none;
     font-weight: 600;
     text-transform: uppercase;
@@ -123,7 +121,7 @@ select {
 .galeria2{
     width:100%;
     height: 100%;
-    column-count: 3;
+    column-count: 4;
 }
 
 .bienvenida{
@@ -186,15 +184,15 @@ select {
 .TT{
     font-weight: lighter;
     color: #F0F0E9;
-    font-family: "Linefont", system-ui;
     /* font-size: 6rem; */
     margin: -40px 0px -26px 0;
 }
-.TTM{
-    /* font-size: 6rem; */
-}
+/* .TTM{
+ font-size: 6rem;
+} */
 
 .prodImg{
+    background-color: #6d6d6f6e;
     /* width: 200px; */
     width: 100%;
     align-self: center;
@@ -228,7 +226,11 @@ figcaption.price {
     margin: -50px 0 -20px 0;
     /* font-size: 6.4rem; */
     font-weight: lighter;
-    font-family: "Linefont", system-ui;
+}
+.org{
+    float: right;
+    background-color: crimson;
+    color: #fff;
 }
 .titulo {
     margin-top: 70px;
@@ -238,7 +240,6 @@ figcaption.price {
     color: #7a0909;
   }
 .Tit{
-    font-family: "Linefont", system-ui;
     /* font-size: 5rem; */
     font-weight: lighter;
 }
@@ -300,11 +301,10 @@ figcaption.price {
     /* font-size: 3rem; */
 }
 #descrip{
-    /* font-size: 2rem; */
+    font-size: 2rem;
 }
 #prec {
     margin: -70px 0 0 0px;
-    font-family: "Linefont", system-ui;
     /* font-size: 14rem; */
 }
 

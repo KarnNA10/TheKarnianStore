@@ -3,13 +3,13 @@ function amp(imgDir, type, price, descr){
     topCont.style.display = 'block'
 
     const imag = document.createElement('img')
-    imag.src  = "static/img/prod/"+imgDir
+    imag.src  = "static/img/"+imgDir // "static/img/prod/"+imgDir
     document.querySelector('.e1').appendChild(imag)
     imag.setAttribute("class","prodImgAmp")
 
     document.getElementById("type").innerHTML=type;
     document.getElementById("descrip").innerHTML=descr;
-    document.getElementById("prec").innerHTML="$"+price;
+    document.getElementById("prec").innerHTML=price;
 }
 function cerrar() {
     // topCont.style.background = '#00ff00'

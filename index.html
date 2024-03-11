@@ -10,34 +10,71 @@
     <link rel="icon" type="image/jpg" href="static/img/Ra.png">
     <link rel="stylesheet" type="text/css" href="static/styles/e1.css" class="liiink"/>
     <script type="text/javascript" src="ff.js"></script>
-    <title>Galería - The Karnian Store</title>
+    <title>[S] The Karnian Store [S]</title>
 </head>
 <script>
     function escInf(sectionId, dataArray){
-        const articles = document.querySelectorAll(`#${sectionId} article`);
-        if(dataArray.length !== articles.length) {
-            console.error('La longitud de dataArray no coincide con la cantidad de elementos <article>.');
-            return;
+        for (let i=0; i<dataArray.length; i++){
+            const article = document.createElement('article');
+            const a = document.createElement('a');
+            const figure = document.createElement('figure');
+            const img = document.createElement('img');
+            const figCaptionName = document.createElement('figcaption');
+            const figCaptionPrice = document.createElement('figcaption');
+            const seccion = document.querySelector(`#${sectionId}`)
+
+            img.classList.add('prodImg');
+            figCaptionPrice.classList.add('price');
+
+            // Construir la estructura del elemento <article>
+            figure.appendChild(img);
+            figure.appendChild(figCaptionName);
+            figure.appendChild(figCaptionPrice);
+            a.appendChild(figure);
+            article.appendChild(a);
+
+            // Agregar el nuevo <article> a la sección
+            seccion.appendChild(article);
         }
+
+        const articles = document.querySelectorAll(`#${sectionId} article`);
+
+        var subdir='prod';
+        //if(sectionId=='DIB'){subdir='dib';}
+
         articles.forEach((article, index) => {
             const data = dataArray[index];
 
             if(data.length === 4) {
-                const [imgDir, type, price, descr] = data;
+                var [imgDir, type, price, descr] = data;
 
                 const imgElement = article.querySelector('.prodImg');
                 const figCaptionName = article.querySelector('figcaption:not(.price)');
                 const figCaptionPrice = article.querySelector('.price');
-    
-                imgElement.src = `static/img/prod/${imgDir}`;
-                figCaptionName.textContent = descr;
+                var precio=price;
+
+                imgElement.src = `static/img/${subdir}/${imgDir}`;
+
+                var des=descr.slice(0,11);
+                if(des==='[Original!]'){
+                    var aa = document.createElement('a');
+                    figCaptionName.textContent = descr.slice(12);
+                    figCaptionName.appendChild(aa)
+                    aa.textContent='Original!';
+                    aa.classList.add('org')
+                }else{
+                    figCaptionName.textContent = descr;
+                }
+                
                 if(price===''){
                     figCaptionPrice.remove();
                 } else {
                     figCaptionPrice.textContent = `$${price}`;
+                    var precio=`$${price}`;
                 }
                 article.querySelector('a').onclick = function() {
-                    amp(imgDir, type, price, descr);
+                    const direct=`${subdir}/${imgDir}`
+                    amp(direct, type, precio, descr);
                 };
             } else {
                 console.error('Cada array de datos debe tener exactamente 4 elementos.');
@@ -48,6 +85,7 @@
     // Conteo total (cantidad en prod): 127
     // ANIME: 5, ART:15, MUSIC 78, STAMPS:29
     // Sub-mus: 12, 8, 58
+    // DIB: 17
     const anime=[
 ['Anime_Studio-Ghibli_Howls-Moving-Castle_re_001.png','Sticker','','Studio Ghibli, Howl\'s Moving Castle'],
 ['Anime_Studio-Ghibli_Kiki_re_001.png','Sticker','','Studio Ghibli, Kiki\'s Delivery Service'],
@@ -123,6 +161,7 @@
 ['Music_Burt-Bacharach_c_001.jpg','Sticker','5','Burt Bacharach, Hit Maker! album cover'],
 ['Music_Camel_c_001.png','Sticker','5','Camel, Mirage album cover'],
 ['Music_ELP_c_001.png','Sticker','5','ELP, Brain Salad Surgery album cover'],
+['Music_ELP_png_003.png','Sticker','','[Original!] ELP AU Furro'],    
 ['Music_Genesis_c_001.png','Sticker','5','Genesis, Nursery Cryme album cover'],
 ['Music_Greenslade_c_001.png','Sticker','5','Greenslade, album cover'],
 ['Music_Herbie-Hancock_c_001.png','Sticker','5','Herbie Hancock, Head Hunters album cover'],
@@ -150,7 +189,7 @@
 ['Music_Bust_Beethoven_re_001.png','Sticker','','Beethoven, Bust'],
 ['Music_Bust_Haendel_re_001.png','Sticker','','Händel, Bust'],
 ['Music_Bust_Mozart_re_001.png','Sticker','','Mozart, Bust']] 
-    const stamps=[
+    const stamps1=[
 ['Stamps_001.jpg','Sticker','4','NIPON, Correo de Japón. Ángel de hielo a la deriva, Clione, Hokkaido'],
 ['Stamps_002.png','Sticker','4','CHECOSLOVAQUIA. J. LIESLER 1975 J. HERČÍK'],
 ['Stamps_003.png','Sticker','4','USA 1990, Killer Whale'],
@@ -162,26 +201,98 @@
 ['Stamps_009.jpg','Sticker','4','NIPON. Correo de Japón. Castillo de Matsumoto y los Alpes, Prefectura de Nagano'],
 ['Stamps_010.png','Sticker','4','Corea 1988'],
 ['Stamps_011.jpg','Sticker','4','Finlandia 2006'],
-['Stamps_012.jpg','Sticker','4','Correo Popular de China 1982'],
+['Stamps_012.jpg','Sticker','4','Correo Popular de China 1982']] 
+    const stamps2=[
 ['Stamps_013.jpg','Sticker','4','Hong Kong, China 2012. Aries'],
 ['Stamps_014.jpg','Sticker','4','Hong Kong, China 2012. Taurus'],
-['Stamps_015.jpg','Sticker','4','Hong Kong, China 2012. Capricornio'],
 ['Stamps_016.jpg','Sticker','4','Hong Kong, China 2012. Geminis'],
-['Stamps_017.jpg','Sticker','4','Hong Kong, China 2012. Aquarius'],
-['Stamps_018.jpg','Sticker','4','Hong Kong, China 2012. Libra'],
+['Stamps_022.jpg','Sticker','4','Hong Kong, China 2012. Cancer'],
 ['Stamps_019.jpg','Sticker','4','Hong Kong, China 2012. Leo'],
 ['Stamps_020.jpg','Sticker','4','Hong Kong, China 2012. Virgo'],
-['Stamps_021.jpg','Sticker','4','Hong Kong, China 2012. Sagittarius'],
-['Stamps_022.jpg','Sticker','4','Hong Kong, China 2012. Cancer'],
-['Stamps_023.jpg','Sticker','4','Hong Kong, China 2012. Pisces'],
+['Stamps_018.jpg','Sticker','4','Hong Kong, China 2012. Libra'],
 ['Stamps_024.jpg','Sticker','4','Hong Kong, China 2012. Scorpio'],
+['Stamps_021.jpg','Sticker','4','Hong Kong, China 2012. Sagittarius'],
+['Stamps_015.jpg','Sticker','4','Hong Kong, China 2012. Capricornio'],
+['Stamps_017.jpg','Sticker','4','Hong Kong, China 2012. Aquarius'],
+['Stamps_023.jpg','Sticker','4','Hong Kong, China 2012. Pisces']] 
+    const stamps3=[
 ['Stamps_025.jpg','Sticker','4','Grecia'],
 ['Stamps_026.jpg','Sticker','4','Checoslovaquia'],
 ['Stamps_027.jpg','Sticker','4','Qué?'],
 ['Stamps_028.jpg','Sticker','4','Italia-Grecia-Turquía. Londres'],
-['Stamps_029.jpg','Sticker','4','Checoslovaquia']] 
-    // const comm=[
+['Stamps_029.jpg','Sticker','4','Checoslovaquia'],
+['Stamps_030.jpg','Sticker','','Checoslovaquia'],
+['Stamps_031.jpg','Sticker','','Checoslovaquia, Praga'],
+['Stamps_032.jpg','Sticker','','India'],
+['Stamps_033.jpg','Sticker','','Hungría 1968. Carrera de caballos'],
+['Stamps_034.jpg','Sticker','','USA 1997. Avión corsario'],
+['Stamps_035.png','Sticker','','República Checa 2009. Lechuza común'],
+['Stamps_036.png','Sticker','','[1/10] República de Ruanda 1972'],
+['Stamps_037.png','Sticker','','[2/10] República de Ruanda 1972'],
+['Stamps_038.png','Sticker','','[3/10] República de Ruanda 1972'],
+['Stamps_039.png','Sticker','','[4/10] República de Ruanda 1972'],
+['Stamps_040.png','Sticker','','[5/10] República de Ruanda 1972'],
+['Stamps_041.png','Sticker','','[6/10] República de Ruanda 1972'],
+['Stamps_042.png','Sticker','','[7/10] República de Ruanda 1972'],
+['Stamps_043.png','Sticker','','[8/10] República de Ruanda 1972'],
+['Stamps_044.png','Sticker','','[9/10] República de Ruanda 1972'],
+['Stamps_045.png','Sticker','','[10/10] República de Ruanda 1972'],
+['Stamps_046.png','Sticker','','[1/4] Alemania 1964. El Lobo y los siete cabritos'],
+['Stamps_047.png','Sticker','','[2/4] Alemania 1964. El Lobo y los siete cabritos'],
+['Stamps_048.png','Sticker','','[3/4] Alemania 1964. El Lobo y los siete cabritos'],
+['Stamps_049.png','Sticker','','[4/4] Alemania 1964. El Lobo y los siete cabritos'],
+['Stamps_050.png','Sticker','','[1/4] Alemania 1964. La Bella Durmiente'],
+['Stamps_051.png','Sticker','','[2/4] Alemania 1964. La Bella Durmiente'],
+['Stamps_052.png','Sticker','','[3/4] Alemania 1964. La Bella Durmiente'],
+['Stamps_053.png','Sticker','','[4/4] Alemania 1964. La Bella Durmiente']] 
+    const flag=[
+    ['Flag_Abania.png','Sticker','','Abania'],
+    ['Flag_Alemania.png','Sticker','','Alemania'],
+    ['Flag_Angola.png','Sticker','','Angola'],
+    ['Flag_Argentina.png','Sticker','','Argentina'],
+    ['Flag_Australia.png','Sticker','','Australia'],
+    ['Flag_Bahamas.png','Sticker','','Bahamas'],
+    ['Flag_Barbados.png','Sticker','','Barbados'],
+    ['Flag_Belgica.png','Sticker','','Bélgica'],
+    ['Flag_Brasil.png','Sticker','','Brasil'],
+    ['Flag_Canada.png','Sticker','','Canadá'],
+    ['Flag_Chile.png','Sticker','','Chile'],
+    ['Flag_China.png','Sticker','','China'],
+    ['Flag_Corea.png','Sticker','','Corea'],
+    ['Flag_Dinamarca.png','Sticker','','Dinamarca'],
+    ['Flag_EmiratosArabesUnidos.png','Sticker','','Emiratos Árabes Unidos'],
+    ['Flag_España.png','Sticker','','España'],
+    ['Flag_Francia.png','Sticker','','Francia'],
+    ['Flag_Grecia.png','Sticker','','Grecia'],
+    ['Flag_HongKong.png','Sticker','','Hong Kong'],
+    ['Flag_India.png','Sticker','','India'],
+    ['Flag_IslasVirgenesUSA.png','Sticker','','Islas Vírgenes USA'],        
+    ['Flag_Italia.png','Sticker','','Italia'],
+    ['Flag_Japon.png','Sticker','','Japón'],
+    ['Flag_Malasia.png','Sticker','','Malasia'],
+    ['Flag_Mexico.png','Sticker','','México'],
+    ['Flag_Noruega.png','Sticker','','Noruega'],
+    ['Flag_Portugal.png','Sticker','','Portugal'],
+    ['Flag_ReinoUnido.png','Sticker','','Reino Unido'],
+    ['Flag_Rusia.png','Sticker','','Rusia'],
+    ['Flag_SriLanka.png','Sticker','','Sri Lanka'],
+    ['Flag_Suiza.png','Sticker','','Suiza'],
+    ['Flag_Tailandia.png','Sticker','','Tailandia'],
+    ['Flag_Turquia.png','Sticker','','Turquía'],
+    ['Flag_USA.png','Sticker','','USA']]
 // ['Comm - Mary.png','Comisión','1200','Dibujo Digital, Reference Sheet']]  -->
+    const dib=[
+['Misc_Furros_001.png','Sticker','','[Original!] Dragoncita'],
+['Misc_HazbinHotel_001.png','Sticker','','[Original!] Ese gato que sale en Hazbin Hotel'], 
+['Misc_KYR_001.png','Sticker','','[Original!] Keith y Rael'],
+['Misc_TalesFTWoods_003.PNG','Sticker','','[Original!] Arte conceptual del juego \'Tales From The Woods\''],
+['Misc_TalesFTWoods_004.png','Sticker','','[Original!] Arte conceptual del juego \'Tales From The Woods\''],
+['Misc_TalesFTWoods_005.png','Sticker','','[Original!] Arte conceptual del juego \'Tales From The Woods\''],
+['Misc_TalesFTWoods_006.png','Sticker','','[Original!] Arte conceptual del juego \'Tales From The Woods\''],
+['Misc_TalesFTWoods_007.png','Sticker','','[Original!] Arte conceptual del juego \'Tales From The Woods\''],
+['Misc_TalesFTWoods_008.png','Sticker','','[Original!] Arte conceptual del juego \'Tales From The Woods\''],
+['Misc_TalesFTWoods_009.png','Sticker','','[Original!] Arte conceptual del juego \'Tales From The Woods\''],
+['Misc_TalesFTWoods_010.png','Sticker','','[Original!] Arte conceptual del juego \'Tales From The Woods\'']]
 
 function cargar(){
         escInf('ANIME', anime);
@@ -189,9 +300,12 @@ function cargar(){
         escInf('MUSIC1', mus1);
         escInf('MUSIC2', mus2);
         escInf('MUSIC3', mus3);
-        escInf('STAMPS', stamps);
-        // escInf('COMM', comm);
-        console.log("Ya se debió cargar todo jaja salu2. Si ocurre algún error, faor de demandar al Administrador.");
+        escInf('STAMPS1', stamps1);
+        escInf('STAMPS2', stamps2);
+        escInf('STAMPS3', stamps3);
+        escInf('FLAG', flag);
+        escInf('DIB', dib);
+        console.log("Ya se debió cargar todo jaja salu2. Si ocurre algún error, favor de demandar al Administrador.");
     }
     
 </script>
@@ -211,12 +325,14 @@ function cargar(){
                     <li><a href="#anime">Anime</a></li>
                     <li><a href="#arte">Arte</a></li>
                     <li><a href="#mus1">Música</a></li>
-                    <li><a href="#stamps">Estampas</a></li>
+                    <li><a href="#stamps1">Estampas</a></li>
+                    <li><a href="#flag">Banderas</a></li>
+                    <li><a href="#dib">Misc</a></li>
                     <!-- <li><a href="#comm" style="color:crimson;">Comisiones</a></li> -->
                     <select name="PreviousReceiver" onchange="cambiarCss(this)" class="sss">
                         <option value="1">Dark</option>
                         <option value="2">Light</option>
-                        <option value="3">Darker!</option>
+                        <!-- <option value="3">Darker!</option> -->
                     </select>
                 </ul>
             </div>
@@ -244,9 +360,11 @@ function cargar(){
         <div class="ee2">
             <p id="p1">Bienvenido al catálogo de </p><div class="TT"><a class="TTM">T</a>he <a class="TTM">K</a>arnian <a class="TTM">S</a>tore</div>
             <p id="p2">Aquí encontrarás todos los productos y servicios que ofrece la tienda</p>
-            <p id="p2">Tenemos comisiones abiertas !!1!</p>
-            <p id="p3">*Disponible exclusivamente para el Tec</p>
-            <p id="p3">Si deseas hace un pedido, contáctanos por correo</p>
+            <p id="p2">Tenemos comisiones abiertas !!1! visita nuestra <a target="_blank" href="https://karnna10.github.io/TheKarnianGallery/" style="color: crimson;background: black;">Galería</a> para conocer más</p>
+            <p id="p3">*Disponible exclusivamente para el Tec. Sólo pagos en efectivo.</p>
+            <p id="p3">*Los precios de los sticker varían en función de su tamaño</p>
+            <p id="p3">Si un artículo no tiene precio es porque por el momento no está disponible.</p>
+            <p id="p3">Si deseas hacer un pedido, puedes contactarme por Telegram <a style="background: crimson;color:#fff;" target="_blank" href="https://t.me/KARN_kn">https://t.me/KARN_kn</a></p>
         </div>
     </div>
 </span>
@@ -256,541 +374,48 @@ function cargar(){
         <h1 class="titulo"><a class="Tit">S</a>tickers</h1>
         <div class="sep"  id="anime"></div>
         <h2 class="subtitulo">Anime/Manga</h2>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        
     </section>
+
     <section class="galeria" id="ART">
         <div class="sep"  id="arte"></div>
         <h2 class="subtitulo">Arte</h2>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        
     </section>
+
     <section class="galeria" id="MUSIC1">
         <div class="sep"  id="mus1"></div>
         <h2 class="subtitulo">Música</h2>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
     </section>
+    <hr/>
     <section class="galeria" id="MUSIC2">
         <div class="sep"  id="mus2"></div>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
     </section>
+    <hr/>
     <section class="galeria" id="MUSIC3">
         <div class="sep"  id="mus3"></div>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-
     </section>
-    <section class="galeria" id="STAMPS">
-        <div class="sep"  id="stamps"></div>
+
+    <section class="galeria" id="STAMPS1">
+        <div class="sep"  id="stamps1"></div>
         <h2 class="subtitulo">Estampas</h2>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-        <article><a><figure>
-                    <img class="prodImg" src="" />
-                    <figcaption></figcaption><figcaption class="price"></figcaption>
-        </figure></a></article>
-
     </section>
-    <!-- <section class="galeria2" id="COMM">
-        <div class="sep"  id="comm"></div>
-        <h2 class="subtitulo">Comisiones</h2>
-        <article><a><figure>
-            <img class="prodImg" src="" />
-            <figcaption>Reference Sheet</figcaption><figcaption class="price">$1000</figcaption>
-        </figure></a></article> -->
+    <hr/>
+    <section class="galeria" id="STAMPS2">
+        <div class="sep"  id="stamps2"></div>
+    </section>
+    <hr/>
+    <section class="galeria" id="STAMPS3">
+        <div class="sep"  id="stamps3"></div>
+    </section>
 
+    <section class="galeria" id="FLAG">
+        <div class="sep"  id="flag"></div>
+        <h2 class="subtitulo">Banderas</h2>
+    </section>
+
+    <section class="galeria" id="DIB">
+        <div class="sep"  id="dib"></div>
+        <h2 class="subtitulo">Misceláneos</h2>
+    </section>
 
 </body>
 </html>

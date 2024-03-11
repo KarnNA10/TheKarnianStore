@@ -2,7 +2,7 @@ html{
     background-image: url("fondos/002.png");
     background-size: 30%;
 }
-header, h1, h2{
+header, h1, h2, hr{
     -webkit-column-span:all;
     column-span:all;
 }
@@ -58,7 +58,7 @@ a.TM{
 }
 #menu li a, #menu li span{
     display: inline-block;
-    padding: 0em 1.5em;
+    padding: 0em 1em;
     text-decoration: none;
     font-weight: 600;
     text-transform: uppercase;
@@ -94,7 +94,7 @@ select {
 .galeria2{
     width:100%;
     height: 100%;
-    column-count: 3;
+    column-count: 4;
 }
 
 .bienvenida{
@@ -160,6 +160,7 @@ select {
 
 .prodImg{
     /* width: 200px; */
+    background-color: #6d6d6f6e;
     width: 100%;
     align-self: center;
 }
@@ -194,6 +195,11 @@ figcaption.price {
     font-size: 6.4rem;
     font-weight: lighter;
     font-family: parchment;
+}
+.org{
+    float: right;
+    background-color: crimson;
+    color: #fff;
 }
 .titulo {
     margin-top: 70px;
